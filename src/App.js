@@ -16,15 +16,6 @@ function App() {
   const [note, setNote] = useState(null);
   const [savedNotes, setSavedNotes] = useState([]);
 
-  useEffect(() => {
-    handleListen();
-    // const myNote = localStorage.getItem("notes");
-    // const notes = JSON.parse(myNote);
-    // if (notes) {
-    //   setSavedNotes([...savedNotes, notes]);
-    // }
-  }, [isListening]);
-
   const handleListen = () => {
     if (isListening) {
       mic.start();
@@ -55,10 +46,19 @@ function App() {
     };
   };
 
+  useEffect(() => {
+    handleListen();
+    const myNote = localStorage.getItem("notes");
+    const notes = JSON.parse(myNote);
+    if (notes) {
+      setSavedNotes(notes);
+    }
+  }, [isListening]);
+
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note]);
     setNote("");
-    // localStorage.setItem("notes", JSON.stringify([...savedNotes, note]));
+    localStorage.setItem("notes", JSON.stringify([...savedNotes, note]));
   };
 
   return (
